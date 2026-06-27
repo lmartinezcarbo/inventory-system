@@ -98,3 +98,33 @@ def clear_fields():
     qty_var.set("")
     price_var.set("")
     category_var.set("")
+
+# PRODUCT TABLE
+
+# Treeview widget to display all products
+table = ttk.Treeview(
+    root,
+    columns=("ID", "Name", "Qty", "Price", "Category"),
+    show="headings"
+)
+
+# Define table headers
+table.heading("ID", text="ID")
+table.heading("Name", text="Name")
+table.heading("Qty", text="Qty")
+table.heading("Price", text="Price")
+table.heading("Category", text="Category")
+
+table.pack(fill="both", expand=True)
+
+def load_products():
+    """
+    Load all products from database into table.
+    """
+    # Clear table before loading new data
+    for row in table.get_children():
+        table.delete(row)
+
+    # Insert fresh data
+    for product in service.get_products():
+        table.insert("", "end", values=product)
