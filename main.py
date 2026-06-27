@@ -23,6 +23,17 @@ root = tk.Tk()
 root.title("Inventory System")
 root.geometry("700x500")
 
+# FRAMES (LAYOUT STRUCTURE)
+
+top_frame = tk.Frame(root)
+top_frame.pack(pady=10)
+
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+table_frame = tk.Frame(root)
+table_frame.pack(fill="both", expand=True)
+
 # INPUT VARIABLES
 
 # These variables store user input from the GUI fields
@@ -108,45 +119,40 @@ def clear_fields():
 # INPUT FIELDS (UI)
 
 # Product name input
-tk.Label(root, text="Name").pack()
-tk.Entry(root, textvariable=name_var).pack()
+tk.Label(top_frame, text="Name").grid(row=0, column=0)
+tk.Entry(top_frame, textvariable=name_var).grid(row=0, column=1)
 
 # Quantity input
-tk.Label(root, text="Quantity").pack()
-tk.Entry(root, textvariable=qty_var).pack()
+tk.Label(top_frame, text="Qty").grid(row=0, column=2)
+tk.Entry(top_frame, textvariable=qty_var).grid(row=0, column=3)
 
 # Price input
-tk.Label(root, text="Price").pack()
-tk.Entry(root, textvariable=price_var).pack()
+tk.Label(top_frame, text="Price").grid(row=1, column=0)
+tk.Entry(top_frame, textvariable=price_var).grid(row=1, column=1)
 
 # Category input
-tk.Label(root, text="Category").pack()
-tk.Entry(root, textvariable=category_var).pack()
+tk.Label(top_frame, text="Category").grid(row=1, column=2)
+tk.Entry(top_frame, textvariable=category_var).grid(row=1, column=3)
 
 # PRODUCT TABLE
 
 # Treeview widget to display all products
 table = ttk.Treeview(
-    root,
+    table_frame,
     columns=("ID", "Name", "Qty", "Price", "Category"),
     show="headings"
 )
 
-# Define table headers
-table.heading("ID", text="ID")
-table.heading("Name", text="Name")
-table.heading("Qty", text="Qty")
-table.heading("Price", text="Price")
-table.heading("Category", text="Category")
+for col in ("ID", "Name", "Qty", "Price", "Category"):
+    table.heading(col, text=col)
 
 table.pack(fill="both", expand=True)
 
 # BUTTONS
 
-tk.Button(root, text="Add Product", command=add_product).pack(pady=5)
-tk.Button(root, text="Delete Selected", command=delete_product).pack(pady=5)
-tk.Button(root, text="Update Stock", command=update_product).pack(pady=5)
-
+tk.Button(button_frame, text="Add", command=add_product).pack(side="left", padx=5)
+tk.Button(button_frame, text="Update", command=update_product).pack(side="left", padx=5)
+tk.Button(button_frame, text="Delete", command=delete_product).pack(side="left", padx=5)
 
 # INITIAL LOAD
 
