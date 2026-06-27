@@ -1,36 +1,51 @@
+import sqlite3
+
 from pathlib import Path
 from typing import Optional
 
 from database import get_connection
 
-"""Insert a new product into the inventory."""
+
 def add_product(name, quantity, price, category, db_path: Optional[str | Path] = None):
-    # Save a new product record into the database.
-    conn = get_connection(db_path)
-    cursor = conn.cursor()
+    """Insert a new product into the inventory."""
 
-    cursor.execute("""
-        INSERT INTO products (name, quantity, price, category)
-        VALUES (?, ?, ?, ?)
-    """, (name, quantity, price, category))
+    try:
+        conn = get_connection(db_path)
+        cursor = conn.cursor()
 
-    conn.commit()
-    conn.close()
+        cursor.execute(
+            """
+            INSERT INTO products (name, quantity, price, category)
+            VALUES (?, ?, ?, ?)
+            """,
+            (name, quantity, price, category),
+        )
 
-"""Return all products from the database."""
+        conn.commit()
+
+    except sqlite3.Error as e:
+        raise RuntimeError(f"Database error: {e}")
+
+    finally:
+        conn.close()
+
+
 def get_products(db_path: Optional[str | Path] = None):
-    # Load every product row from the database.
-    conn = get_connection(db_path)
-    cursor = conn.cursor()
+    """Return all products from the database."""
 
-    cursor.execute("SELECT * FROM products")
-    data = cursor.fetchall()
+    try:
+        with get_connection(db_path) as conn:
+            cursor = conn.cursor()
 
-    conn.close()
-    return data
+            cursor.execute("SELECT * FROM products")
+            return cursor.fetchall()
 
-"""Delete a product by its ID."""
+    except sqlite3.Error as e:
+        raise RuntimeError(f"Database error: {e}")
+
+
 def delete_product(product_id, db_path: Optional[str | Path] = None):
+    """Delete a product by its ID."""
     # Remove the selected product from storage.
     conn = get_connection(db_path)
     cursor = conn.cursor()
@@ -40,38 +55,47 @@ def delete_product(product_id, db_path: Optional[str | Path] = None):
     conn.commit()
     conn.close()
 
-"""Update the stock quantity of a product."""
+
 def update_stock(product_id, quantity, db_path: Optional[str | Path] = None):
+    """Update the stock quantity of a product."""
     # Update only the stock field for the selected product.
     conn = get_connection(db_path)
     cursor = conn.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
         UPDATE products
         SET quantity = ?
         WHERE id = ?
-    """, (quantity, product_id))
+        """,
+        (quantity, product_id),
+    )
 
     conn.commit()
     conn.close()
 
-"""Update all editable fields of a product."""
+
 def update_product(product_id, name, quantity, price, category, db_path: Optional[str | Path] = None):
+    """Update all editable fields of a product."""
     # Replace the editable product details for the selected record.
     conn = get_connection(db_path)
     cursor = conn.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
         UPDATE products
         SET name = ?, quantity = ?, price = ?, category = ?
         WHERE id = ?
-    """, (name, quantity, price, category, product_id))
+        """,
+        (name, quantity, price, category, product_id),
+    )
 
     conn.commit()
     conn.close()
 
-"""Return inventory summary values."""
+
 def get_summary(db_path: Optional[str | Path] = None):
+    """Return inventory summary values."""
     # Calculate the total number of products, units, and stock value.
     conn = get_connection(db_path)
     cursor = conn.cursor()
@@ -86,8 +110,9 @@ def get_summary(db_path: Optional[str | Path] = None):
         "value": total_value,
     }
 
-"""Return products filtered by category."""
+
 def get_products_by_category(category, db_path: Optional[str | Path] = None):
+    """Return products filtered by category."""
     # Retrieve only products that belong to the requested category.
     conn = get_connection(db_path)
     cursor = conn.cursor()
