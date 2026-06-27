@@ -128,3 +128,19 @@ def load_products():
     # Insert fresh data
     for product in service.get_products():
         table.insert("", "end", values=product)
+
+# BUTTONS
+
+tk.Button(root, text="Add Product", command=add_product).pack(pady=5)
+tk.Button(root, text="Delete Selected", command=delete_product).pack(pady=5)
+
+
+# INITIAL LOAD
+
+# Load data when app starts
+load_products()
+
+
+# RUN APP
+
+root.mainloop()
