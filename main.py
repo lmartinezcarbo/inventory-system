@@ -4,6 +4,7 @@ Main entry point using Tkinter.
 """
 
 import tkinter as tk
+from tkinter import simpledialog
 from tkinter import ttk, messagebox
 
 import inventory_service as service
@@ -48,6 +49,28 @@ def add_product():
     clear_fields()
     load_products()
 
+def update_product():
+    """
+    Update selected product quantity in database.
+    """
+    selected = table.focus()
+
+    if not selected:
+        messagebox.showwarning("Warning", "No product selected")
+        return
+
+    data = table.item(selected)['values']
+
+    new_qty = simpledialog.askinteger("Update Stock", "Enter new quantity:")
+
+    if new_qty is None:
+        return
+
+    service.update_stock(data[0], new_qty)
+
+    messagebox.showinfo("Updated", "Stock updated successfully")
+
+    load_products()
 
 def delete_product():
     """
@@ -122,6 +145,7 @@ table.pack(fill="both", expand=True)
 
 tk.Button(root, text="Add Product", command=add_product).pack(pady=5)
 tk.Button(root, text="Delete Selected", command=delete_product).pack(pady=5)
+tk.Button(root, text="Update Stock", command=update_product).pack(pady=5)
 
 
 # INITIAL LOAD
