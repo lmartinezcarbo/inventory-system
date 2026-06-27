@@ -1,10 +1,27 @@
-# Python bytecode
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
-
-# SQLite database
-*.db
-
-# Test and local artifacts
-*.log
+*.pyo
+*.pyd
 .pytest_cache/
+.mypy_cache/
+.pytype/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local database and runtime files
+*.db
+*.sqlite3
+*.log
+inventory.log
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db

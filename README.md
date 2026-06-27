@@ -43,6 +43,7 @@ inventory-system/
 │   ├── test_update_product.py
 │   └── test_summary.py
 ├── ui/                      # Tkinter UI modules
+│   ├── __init__.py
 │   ├── dialogs.py
 │   ├── main_window.py
 │   └── table.py
