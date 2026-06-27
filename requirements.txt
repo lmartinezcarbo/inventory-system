@@ -1,2 +1,5 @@
-# No external dependencies are required for this project.
+# Test dependency for automated validation
+pytest>=8.0.0
+
+# No other external dependencies are required.
 # Tkinter and sqlite3 are part of the Python standard library.
