@@ -34,7 +34,7 @@ def delete_product(product_id):
     conn.commit()
     conn.close()
 
- """Update the stock quantity of a product."""
+"""Update the stock quantity of a product."""
 def update_stock(product_id, quantity):
     conn = get_connection()
     cursor = conn.cursor()
