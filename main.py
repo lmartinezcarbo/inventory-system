@@ -40,6 +40,12 @@ root.grid_columnconfigure(0, weight=1)
 
 # INPUT VARIABLES
 
+# Input variable for search functionality
+search_var = tk.StringVar()
+
+tk.Label(top_frame, text="Search").grid(row=2, column=0)
+tk.Entry(top_frame, textvariable=search_var).grid(row=2, column=1)
+
 # These variables store user input from the GUI fields
 name_var = tk.StringVar()
 qty_var = tk.StringVar()
@@ -47,6 +53,36 @@ price_var = tk.StringVar()
 category_var = tk.StringVar()
 
 # FUNCTIONS
+
+def search_products():
+    """
+    Filter products by name.
+    """
+
+    query = search_var.get().lower()
+
+    # clear table
+    for row in table.get_children():
+        table.delete(row)
+
+    # get all products
+    products = service.get_products()
+
+    # filter locally
+    filtered = [
+        p for p in products
+        if query in str(p[1]).lower()
+    ]
+
+    for product in filtered:
+        table.insert("", "end", values=product)
+
+def reset_search():
+    """
+    Reset table to show all products.
+    """
+    search_var.set("")
+    load_products()
 
 def add_product():
     """
@@ -174,6 +210,8 @@ table.pack(fill="both", expand=True)
 tk.Button(button_frame, text="Add", command=add_product).pack(side="left", padx=5)
 tk.Button(button_frame, text="Update", command=update_product).pack(side="left", padx=5)
 tk.Button(button_frame, text="Delete", command=delete_product).pack(side="left", padx=5)
+tk.Button(button_frame, text="Search", command=search_products).pack(side="left", padx=5)
+tk.Button(button_frame, text="Reset", command=reset_search).pack(side="left", padx=5)
 
 # INITIAL LOAD
 
