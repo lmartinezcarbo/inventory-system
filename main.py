@@ -51,3 +51,50 @@ tk.Entry(root, textvariable=price_var).pack()
 # Category input
 tk.Label(root, text="Category").pack()
 tk.Entry(root, textvariable=category_var).pack()
+
+
+# FUNCTIONS
+
+def add_product():
+    """
+    Collect data from inputs and send it to service layer.
+    """
+    name = name_var.get()
+    qty = int(qty_var.get())
+    price = float(price_var.get())
+    category = category_var.get()
+
+    service.add_product(name, qty, price, category)
+
+    messagebox.showinfo("Success", "Product added successfully")
+
+    clear_fields()
+    load_products()
+
+
+def delete_product():
+    """
+    Delete selected product from table and database.
+    """
+    selected = table.focus()
+
+    if not selected:
+        messagebox.showwarning("Warning", "No product selected")
+        return
+
+    data = table.item(selected)['values']
+    service.delete_product(data[0])
+
+    messagebox.showinfo("Deleted", "Product removed")
+
+    load_products()
+
+
+def clear_fields():
+    """
+    Clear all input fields after adding a product.
+    """
+    name_var.set("")
+    qty_var.set("")
+    price_var.set("")
+    category_var.set("")
