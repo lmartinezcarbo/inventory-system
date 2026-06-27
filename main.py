@@ -21,7 +21,8 @@ create_table()
 
 root = tk.Tk()
 root.title("Inventory System")
-root.geometry("700x500")
+root.geometry("800x500")
+root.minsize(800, 500)
 
 # FRAMES (LAYOUT STRUCTURE)
 
@@ -33,6 +34,9 @@ button_frame.pack(pady=10)
 
 table_frame = tk.Frame(root)
 table_frame.pack(fill="both", expand=True)
+
+root.grid_rowconfigure(2, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
 # INPUT VARIABLES
 
@@ -48,12 +52,23 @@ def add_product():
     """
     Collect data from inputs and send it to service layer.
     """
+
     name = name_var.get()
-    qty = int(qty_var.get())
-    price = float(price_var.get())
+    qty = qty_var.get()
+    price = price_var.get()
     category = category_var.get()
 
-    service.add_product(name, qty, price, category)
+    # VALIDATION STEP
+    if not validate_inputs(name, qty, price, category):
+        return
+
+    # SAFE CONVERSION (after validation)
+    service.add_product(
+        name,
+        int(qty),
+        float(price),
+        category
+    )
 
     messagebox.showinfo("Success", "Product added successfully")
 
@@ -61,9 +76,6 @@ def add_product():
     load_products()
 
 def update_product():
-    """
-    Update selected product quantity in database.
-    """
     selected = table.focus()
 
     if not selected:
@@ -72,12 +84,13 @@ def update_product():
 
     data = table.item(selected)['values']
 
-    new_qty = simpledialog.askinteger("Update Stock", "Enter new quantity:")
+    new_qty = simpledialog.askstring("Update Stock", "Enter new quantity:")
 
-    if new_qty is None:
+    if not new_qty or not new_qty.isdigit():
+        messagebox.showerror("Invalid Input", "Quantity must be a number")
         return
 
-    service.update_stock(data[0], new_qty)
+    service.update_stock(data[0], int(new_qty))
 
     messagebox.showinfo("Updated", "Stock updated successfully")
 
@@ -134,14 +147,22 @@ tk.Entry(top_frame, textvariable=price_var).grid(row=1, column=1)
 tk.Label(top_frame, text="Category").grid(row=1, column=2)
 tk.Entry(top_frame, textvariable=category_var).grid(row=1, column=3)
 
-# PRODUCT TABLE
+# TABLE FRAME WITH SCROLL
 
-# Treeview widget to display all products
+table_container = tk.Frame(table_frame)
+table_container.pack(fill="both", expand=True)
+
+scrollbar = tk.Scrollbar(table_container)
+scrollbar.pack(side="right", fill="y")
+
 table = ttk.Treeview(
-    table_frame,
+    table_container,
     columns=("ID", "Name", "Qty", "Price", "Category"),
-    show="headings"
+    show="headings",
+    yscrollcommand=scrollbar.set
 )
+
+scrollbar.config(command=table.yview)
 
 for col in ("ID", "Name", "Qty", "Price", "Category"):
     table.heading(col, text=col)
@@ -159,6 +180,35 @@ tk.Button(button_frame, text="Delete", command=delete_product).pack(side="left",
 # Load data when app starts
 load_products()
 
+
+def validate_inputs(name, qty, price, category):
+    """
+    Validates user input before inserting into database.
+    """
+
+    # NAME must be letters only
+    if not name.replace(" ", "").isalpha():
+        messagebox.showerror("Invalid Input", "Name must contain only letters")
+        return False
+
+    # CATEGORY must be letters only
+    if not category.replace(" ", "").isalpha():
+        messagebox.showerror("Invalid Input", "Category must contain only letters")
+        return False
+
+    # QUANTITY must be number (int)
+    if not qty.isdigit():
+        messagebox.showerror("Invalid Input", "Quantity must be a number")
+        return False
+
+    # PRICE must be number (float safe check)
+    try:
+        float(price)
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Price must be a valid number")
+        return False
+
+    return True
 
 # RUN APP
 
