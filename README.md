@@ -6,7 +6,7 @@ A desktop inventory management system built with Python, Tkinter, and SQLite.
 
 ## 🧠 Description
 
-This project is a GUI-based inventory system that supports full CRUD operations for products. It uses a small modular architecture with separate files for the database layer, business logic, and the user interface.
+This project is a GUI-based inventory system that supports product management with CRUD operations, search, category filtering, stock updates, editing, and a summary view. The application is organized in small modules for the database layer, business logic, UI, and validation.
 
 ---
 
@@ -15,32 +15,46 @@ This project is a GUI-based inventory system that supports full CRUD operations 
 - Add new products
 - View all products in a table
 - Update stock quantity
-- Edit product details
+- Edit existing product details
 - Delete products
 - Search by product name
 - Filter by category
 - View an inventory summary
-- Store data in SQLite
+- Persist data in SQLite
 - Use a Tkinter-based graphical interface
+- Validate input before saving changes
 
 ---
 
 ## 🏗️ Project Structure
 
-```
-InventorySystem/
-│
-├── main.py                  # GUI application (Tkinter)
-├── database.py              # SQLite connection and table setup
-├── inventory_service.py     # CRUD logic and summary helpers
-├── tests/test_inventory.py  # Regression tests for CRUD operations
+```text
+inventory-system/
+├── main.py                  # Application entry point
+├── database.py              # SQLite connection and table creation
+├── inventory_service.py     # CRUD and summary logic
+├── validators.py            # Input validation helpers
+├── pytest.ini               # Pytest configuration
 ├── requirements.txt         # Project dependencies
-└── inventory.db             # Database file (generated automatically)
+├── tests/                   # Test suite for CRUD and summary flows
+│   ├── conftest.py
+│   ├── test_add_product.py
+│   ├── test_delete_product.py
+│   ├── test_update_product.py
+│   └── test_summary.py
+├── ui/                      # Tkinter UI modules
+│   ├── __init__.py
+│   ├── dialogs.py
+│   ├── main_window.py
+│   └── table.py
+└── inventory.db             # SQLite database file (created automatically)
 ```
 
 ---
 
 ## 🚀 How to Run
+
+Run the app with:
 
 ```bash
 python main.py
@@ -48,9 +62,27 @@ python main.py
 
 ---
 
+## 🧪 Running Tests
+
+The project uses pytest for automated tests.
+
+Install pytest if needed:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then run:
+
+```bash
+pytest -q
+```
+
+---
+
 ## 🗄️ Database
 
-The system uses SQLite. The database file is created automatically when the app runs.
+The system uses SQLite. The database file is created automatically when the app starts.
 
 ### Table schema
 
@@ -66,20 +98,11 @@ CREATE TABLE products (
 
 ---
 
-## ✅ Validation
-
-You can verify the CRUD flow with:
-
-```bash
-python -m unittest discover -s tests -v
-```
-
----
-
 ## 📌 Notes
 
 - Tkinter and sqlite3 are included with most Python installations.
-- No external package is required for this project.
+- No external GUI framework is required.
+- The app is intended for learning and small-scale inventory management.
 
 ---
 
