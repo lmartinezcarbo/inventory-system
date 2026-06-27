@@ -22,10 +22,6 @@ root = tk.Tk()
 root.title("Inventory System")
 root.geometry("700x500")
 
-# Run application
-root.mainloop()
-
-
 # INPUT VARIABLES
 
 # These variables store user input from the GUI fields
@@ -33,25 +29,6 @@ name_var = tk.StringVar()
 qty_var = tk.StringVar()
 price_var = tk.StringVar()
 category_var = tk.StringVar()
-
-# INPUT FIELDS (UI)
-
-# Product name input
-tk.Label(root, text="Name").pack()
-tk.Entry(root, textvariable=name_var).pack()
-
-# Quantity input
-tk.Label(root, text="Quantity").pack()
-tk.Entry(root, textvariable=qty_var).pack()
-
-# Price input
-tk.Label(root, text="Price").pack()
-tk.Entry(root, textvariable=price_var).pack()
-
-# Category input
-tk.Label(root, text="Category").pack()
-tk.Entry(root, textvariable=category_var).pack()
-
 
 # FUNCTIONS
 
@@ -86,8 +63,14 @@ def delete_product():
     service.delete_product(data[0])
 
     messagebox.showinfo("Deleted", "Product removed")
-
     load_products()
+
+def load_products():
+    for row in table.get_children():
+        table.delete(row)
+
+    for product in service.get_products():
+        table.insert("", "end", values=product)
 
 
 def clear_fields():
@@ -98,6 +81,24 @@ def clear_fields():
     qty_var.set("")
     price_var.set("")
     category_var.set("")
+
+# INPUT FIELDS (UI)
+
+# Product name input
+tk.Label(root, text="Name").pack()
+tk.Entry(root, textvariable=name_var).pack()
+
+# Quantity input
+tk.Label(root, text="Quantity").pack()
+tk.Entry(root, textvariable=qty_var).pack()
+
+# Price input
+tk.Label(root, text="Price").pack()
+tk.Entry(root, textvariable=price_var).pack()
+
+# Category input
+tk.Label(root, text="Category").pack()
+tk.Entry(root, textvariable=category_var).pack()
 
 # PRODUCT TABLE
 
@@ -116,18 +117,6 @@ table.heading("Price", text="Price")
 table.heading("Category", text="Category")
 
 table.pack(fill="both", expand=True)
-
-def load_products():
-    """
-    Load all products from database into table.
-    """
-    # Clear table before loading new data
-    for row in table.get_children():
-        table.delete(row)
-
-    # Insert fresh data
-    for product in service.get_products():
-        table.insert("", "end", values=product)
 
 # BUTTONS
 
