@@ -22,3 +22,25 @@ def get_products():
 
     conn.close()
     return data
+def delete_product(product_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM products WHERE id = ?", (product_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def update_stock(product_id, quantity):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE products
+        SET quantity = ?
+        WHERE id = ?
+    """, (quantity, product_id))
+
+    conn.commit()
+    conn.close()
