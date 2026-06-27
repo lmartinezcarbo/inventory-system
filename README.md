@@ -1,23 +1,24 @@
-# 📦 Inventory System
+# 📦 Inventory System (GUI Version)
 
-A modular inventory management system built with Python and SQLite for managing products, stock, and categories.
+A desktop inventory management system built with Python, Tkinter, and SQLite.
 
 ---
 
 ## 🧠 Description
 
-This project is a command-line inventory system that allows users to manage products using CRUD operations. It is built with a modular architecture to separate database, business logic, and utility functions.
+This project is a GUI-based inventory system that allows users to manage products using full CRUD operations (Create, Read, Update, Delete). It uses a modular architecture separating database logic, business logic, and UI.
 
 ---
 
 ## ✨ Features
 
 - Add new products
-- View all products
-- Update stock quantity
+- View all products in a table
+- Update product stock
 - Delete products
 - SQLite database storage
-- Modular project structure
+- Tkinter graphical interface
+- Modular code structure
 
 ---
 
@@ -26,8 +27,8 @@ This project is a command-line inventory system that allows users to manage prod
 ```
 InventorySystem/
 │
-├── main.py                # Entry point of the application
-├── database.py            # SQLite connection and table creation
+├── main.py                # GUI application (Tkinter)
+├── database.py            # SQLite connection and table setup
 ├── inventory_service.py   # Business logic (CRUD operations)
 ├── utils.py               # Helper functions
 ├── requirements.txt       # Project dependencies
@@ -46,10 +47,9 @@ python main.py
 
 ## 🗄️ Database
 
-The project uses SQLite.  
-The database file (`inventory.db`) is created automatically when the program runs.
+The system uses SQLite. The database file is created automatically when the app runs.
 
-Table structure:
+### Table schema:
 
 ```sql
 CREATE TABLE products (
@@ -65,25 +65,24 @@ CREATE TABLE products (
 
 ## 📌 Learning Goals
 
-This project was built to practice:
-
-- Python modular programming
+- Python OOP and modular design
+- GUI development with Tkinter
 - CRUD operations
 - SQLite database handling
-- Clean code organization
+- Software architecture basics
 
 ---
 
 ## 📈 Future Improvements
 
-- Add GUI with Tkinter
+- Improve UI design (modern layout)
 - Add product search feature
-- Add stock alerts (low inventory)
+- Add filters (category, stock level)
 - Export data to CSV
-- Convert to REST API (FastAPI)
+- Add authentication system
 
 ---
 
 ## 👨‍💻 Author
 
-Created for learning purposes.
+Built for learning purposes.
