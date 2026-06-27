@@ -6,7 +6,7 @@ A desktop inventory management system built with Python, Tkinter, and SQLite.
 
 ## 🧠 Description
 
-This project is a GUI-based inventory system that allows users to manage products using full CRUD operations (Create, Read, Update, Delete). It uses a modular architecture separating database logic, business logic, and UI.
+This project is a GUI-based inventory system that supports full CRUD operations for products. It uses a small modular architecture with separate files for the database layer, business logic, and the user interface.
 
 ---
 
@@ -14,11 +14,14 @@ This project is a GUI-based inventory system that allows users to manage product
 
 - Add new products
 - View all products in a table
-- Update product stock
+- Update stock quantity
+- Edit product details
 - Delete products
-- SQLite database storage
-- Tkinter graphical interface
-- Modular code structure
+- Search by product name
+- Filter by category
+- View an inventory summary
+- Store data in SQLite
+- Use a Tkinter-based graphical interface
 
 ---
 
@@ -27,12 +30,12 @@ This project is a GUI-based inventory system that allows users to manage product
 ```
 InventorySystem/
 │
-├── main.py                # GUI application (Tkinter)
-├── database.py            # SQLite connection and table setup
-├── inventory_service.py   # Business logic (CRUD operations)
-├── utils.py               # Helper functions
-├── requirements.txt       # Project dependencies
-└── inventory.db           # Database file (auto-generated)
+├── main.py                  # GUI application (Tkinter)
+├── database.py              # SQLite connection and table setup
+├── inventory_service.py     # CRUD logic and summary helpers
+├── tests/test_inventory.py  # Regression tests for CRUD operations
+├── requirements.txt         # Project dependencies
+└── inventory.db             # Database file (generated automatically)
 ```
 
 ---
@@ -49,7 +52,7 @@ python main.py
 
 The system uses SQLite. The database file is created automatically when the app runs.
 
-### Table schema:
+### Table schema
 
 ```sql
 CREATE TABLE products (
@@ -63,23 +66,20 @@ CREATE TABLE products (
 
 ---
 
-## 📌 Learning Goals
+## ✅ Validation
 
-- Python OOP and modular design
-- GUI development with Tkinter
-- CRUD operations
-- SQLite database handling
-- Software architecture basics
+You can verify the CRUD flow with:
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 ---
 
-## 📈 Future Improvements
+## 📌 Notes
 
-- Improve UI design (modern layout)
-- Add product search feature
-- Add filters (category, stock level)
-- Export data to CSV
-- Add authentication system
+- Tkinter and sqlite3 are included with most Python installations.
+- No external package is required for this project.
 
 ---
 

@@ -1,0 +1,10 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# SQLite database
+*.db
+
+# Test and local artifacts
+*.log
+.pytest_cache/

@@ -1,2 +1,2 @@
-# No external dependencies required
-# Python standard library only (tkinter, sqlite3)
+# No external dependencies are required for this project.
+# Tkinter and sqlite3 are part of the Python standard library.
