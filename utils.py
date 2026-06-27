@@ -1,3 +1,4 @@
+"""Display products in a formatted table."""
 def print_products(products):
     print("\nID | Name | Qty | Price | Category")
     print("-------------------------------------")

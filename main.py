@@ -13,13 +13,15 @@ def menu():
     print("5. Exit")
 
 def main():
-
+    # Ensure database and table exist
     create_table()
 
     while True:
+        # Show menu options to the user
         menu()
         option = input("Choose: ")
 
+        # Add new product
         if option == "1":
             name = input("Name: ")
             qty = int(input("Quantity: "))
@@ -28,14 +30,16 @@ def main():
 
             service.add_product(name, qty, price, category)
 
+        # View all products
         elif option == "2":
             products = service.get_products()
             print_products(products)
 
+        # Delete a product
         elif option == "3":
             pid = int(input("Product ID: "))
             service.delete_product(pid)
-
+        # Update stock quantity of a product
         elif option == "4":
             pid = int(input("Product ID: "))
             qty = int(input("New quantity: "))
